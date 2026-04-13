@@ -1,0 +1,32 @@
+name: Broker Health Check
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2am UTC nightly
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Test all broker scripts
+        run: npx tsx scripts/test-brokers.ts
+        env:
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+      - name: Open issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Broker health check failed — ${new Date().toISOString()}`,
+              body: 'Nightly broker health check failed. Check Actions log for details.',
+              labels: ['broker-failure']
+            })
