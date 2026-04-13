@@ -3,7 +3,7 @@ import { z } from "zod";
 import { stripe } from "@/lib/stripe";
 
 const schema = z.object({
-  reportId: z.string().uuid(),
+  reportId: z.string().min(1),
   plan: z.enum(["individual", "family"]),
 });
 
@@ -37,9 +37,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error("Checkout error:", error);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("Checkout error:", message);
     return NextResponse.json(
-      { error: "Failed to create checkout session." },
+      { error: `Failed to create checkout session: ${message}` },
       { status: 500 }
     );
   }

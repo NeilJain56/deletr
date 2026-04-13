@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function CheckoutPage() {
   const [plan, setPlan] = useState<"individual" | "family">("individual");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   async function handleCheckout() {
@@ -15,6 +16,7 @@ export default function CheckoutPage() {
       return;
     }
 
+    setError("");
     setLoading(true);
     try {
       const res = await fetch("/api/checkout", {
@@ -24,10 +26,16 @@ export default function CheckoutPage() {
       });
 
       const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Checkout failed.");
+        setLoading(false);
+        return;
+      }
       if (data.url) {
         window.location.href = data.url;
       }
     } catch {
+      setError("Network error. Please try again.");
       setLoading(false);
     }
   }
@@ -93,6 +101,8 @@ export default function CheckoutPage() {
           </label>
         </div>
       </div>
+
+      {error && <p className="text-center text-sm text-danger">{error}</p>}
 
       {/* CTA */}
       <button
