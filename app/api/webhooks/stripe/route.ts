@@ -40,6 +40,17 @@ export async function POST(req: NextRequest) {
     if (reportId) {
       const jobId = crypto.randomUUID();
 
+      // Store jobId mapping AND initial job state BEFORE firing Inngest
+      // This prevents the race condition where the user's redirect arrives
+      // before the job exists in Redis
+      await redis.set(`checkout-job:${session.id}`, jobId, { ex: 172800 });
+      await redis.set(`job:${jobId}`, JSON.stringify({
+        status: "running",
+        total: 0,
+        completed: 0,
+        brokers: [],
+      }), { ex: 172800 });
+
       await inngest.send({
         name: "deletr/deletion.requested",
         data: {
@@ -49,9 +60,6 @@ export async function POST(req: NextRequest) {
           customerEmail: session.customer_details?.email || null,
         },
       });
-
-      // Store jobId mapping for the checkout session so progress page can find it
-      await redis.set(`checkout-job:${session.id}`, jobId, { ex: 172800 });
     }
   }
 

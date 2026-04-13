@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback, use } from "react";
+import { useState, useEffect, useCallback, useRef, use } from "react";
 import type { DeletionJob } from "@/types/job";
-import { BROKER_LIST } from "@/lib/brokers/constants";
 import { ProgressBar } from "@/components/progress/ProgressBar";
 import { BrokerList } from "@/components/progress/BrokerList";
 
@@ -14,15 +13,21 @@ export default function ProgressPage({ params }: { params: Promise<{ jobId: stri
   const { jobId } = use(params);
   const [data, setData] = useState<ProgressData | null>(null);
   const [error, setError] = useState("");
+  const startedAt = useRef(Date.now());
 
   const fetchProgress = useCallback(async () => {
     try {
       const res = await fetch(`/api/progress/${jobId}`);
       if (!res.ok) {
-        const err = await res.json();
-        setError(err.error || "Failed to load progress.");
+        // Give the webhook up to 20 seconds to fire before showing error
+        const elapsed = Date.now() - startedAt.current;
+        if (elapsed > 20000) {
+          const err = await res.json();
+          setError(err.error || "Failed to load progress.");
+        }
         return;
       }
+      setError("");
       const json: ProgressData = await res.json();
       setData(json);
     } catch {
@@ -51,7 +56,7 @@ export default function ProgressPage({ params }: { params: Promise<{ jobId: stri
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-teal border-t-transparent" />
-        <p className="text-sm text-muted-foreground">Loading deletion progress...</p>
+        <p className="text-sm text-muted-foreground">Processing your payment...</p>
       </div>
     );
   }
