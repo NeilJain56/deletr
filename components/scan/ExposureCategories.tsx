@@ -8,10 +8,12 @@ function CategoryRow({
   label,
   value,
   color,
+  details,
 }: {
   label: string;
   value: string;
   color: "red" | "amber" | "green";
+  details?: string[];
 }) {
   const dotColor = {
     red: "bg-danger",
@@ -20,32 +22,47 @@ function CategoryRow({
   }[color];
 
   return (
-    <div className="flex items-center justify-between py-2.5">
-      <div className="flex items-center gap-3">
-        <span className={`h-2.5 w-2.5 rounded-full ${dotColor}`} />
-        <span className="text-sm">{label}</span>
+    <div className="py-2.5">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className={`h-2.5 w-2.5 rounded-full ${dotColor}`} />
+          <span className="text-sm">{label}</span>
+        </div>
+        <span className="text-sm font-medium text-muted-foreground">{value}</span>
       </div>
-      <span className="text-sm font-medium text-muted-foreground">{value}</span>
+      {details && details.length > 0 && (
+        <div className="ml-[22px] mt-1 flex flex-col gap-0.5">
+          {details.map((detail, i) => (
+            <span key={i} className="text-xs text-muted-foreground/70">
+              {detail}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 export function ExposureCategories({ categories }: Props) {
+  const rd = categories.redactedDetails;
   const rows = [
     {
       label: "Addresses",
       value: `${categories.addresses} found`,
       color: categories.addresses > 2 ? "red" : "amber",
+      details: rd?.addresses,
     },
     {
       label: "Phone numbers",
       value: `${categories.phoneNumbers} found`,
       color: categories.phoneNumbers > 1 ? "red" : "amber",
+      details: rd?.phoneNumbers,
     },
     {
       label: "Email addresses",
       value: `${categories.emailAddresses} found`,
       color: categories.emailAddresses > 1 ? "red" : "amber",
+      details: rd?.emailAddresses,
     },
     {
       label: "Known associates",
@@ -54,6 +71,7 @@ export function ExposureCategories({ categories }: Props) {
           ? `${categories.knownAssociates} found`
           : "Not found",
       color: categories.knownAssociates > 0 ? "amber" : "green",
+      details: rd?.associates,
     },
     {
       label: "Property records",

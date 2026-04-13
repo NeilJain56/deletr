@@ -47,7 +47,7 @@ export function HeroInput() {
           value={identifier}
           onChange={(e) => setIdentifier(e.target.value)}
           placeholder="Phone number or email address"
-          className="flex-1 rounded-full border border-border bg-white px-5 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-teal focus:ring-2 focus:ring-teal/20"
+          className="flex-1 rounded-full border border-border bg-secondary px-5 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-teal focus:ring-2 focus:ring-teal/20"
           disabled={loading}
         />
         <button

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { redis } from "@/lib/redis";
-import { inngest } from "@/inngest/client";
 import crypto from "crypto";
 
 export async function POST(req: NextRequest) {
@@ -40,26 +39,31 @@ export async function POST(req: NextRequest) {
     if (reportId) {
       const jobId = crypto.randomUUID();
 
-      // Store jobId mapping AND initial job state BEFORE firing Inngest
-      // This prevents the race condition where the user's redirect arrives
-      // before the job exists in Redis
+      // Store mapping and initial job state immediately
       await redis.set(`checkout-job:${session.id}`, jobId, { ex: 172800 });
-      await redis.set(`job:${jobId}`, JSON.stringify({
-        status: "running",
-        total: 0,
-        completed: 0,
-        brokers: [],
-      }), { ex: 172800 });
+      await redis.set(
+        `job:${jobId}`,
+        JSON.stringify({
+          status: "running",
+          total: 0,
+          completed: 0,
+          brokers: [],
+        }),
+        { ex: 172800 }
+      );
 
-      await inngest.send({
-        name: "deletr/deletion.requested",
-        data: {
+      // Fire and forget — trigger deletion in background
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://deletr.vercel.app";
+      fetch(`${appUrl}/api/deletion`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           jobId,
           reportId,
           plan: plan || "individual",
           customerEmail: session.customer_details?.email || null,
-        },
-      });
+        }),
+      }).catch((err) => console.error("Failed to trigger deletion:", err));
     }
   }
 

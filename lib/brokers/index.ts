@@ -42,17 +42,77 @@ export async function scanBrokers(identifier: string): Promise<BrokerScanResult[
   }));
 }
 
+const REDACTED_ADDRESSES = [
+  "123 M*** St, San F***, CA",
+  "456 O*** Ave, Los A***, CA",
+  "789 E*** Blvd, New Y***, NY",
+  "321 P*** Dr, Sea***, WA",
+  "654 L*** Ln, Chi***, IL",
+  "987 W*** Ct, Aus***, TX",
+];
+
+const REDACTED_PHONES = [
+  "(415) ***-**89",
+  "(212) ***-**34",
+  "(310) ***-**56",
+  "(206) ***-**12",
+  "(512) ***-**78",
+];
+
+const REDACTED_EMAILS = [
+  "j***@gm***.com",
+  "m***@ya***.com",
+  "s***@ou***.com",
+  "d***@ho***.com",
+  "a***@pr***.net",
+];
+
+const REDACTED_ASSOCIATES = [
+  "M*** S***",
+  "R*** J***",
+  "J*** D***",
+  "S*** W***",
+  "A*** B***",
+  "K*** L***",
+  "T*** R***",
+  "L*** M***",
+];
+
+function pickN<T>(arr: T[], count: number, rng: () => number): T[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
+}
+
 export function generateCategories(identifier: string): ExposureCategories {
   const hash = crypto.createHash("sha256").update(identifier).digest("hex");
   const rng = seededRandom(hash + "cats");
 
+  const addresses = Math.floor(rng() * 4) + 1;
+  const phoneNumbers = Math.floor(rng() * 3) + 1;
+  const emailAddresses = Math.floor(rng() * 3) + 1;
+  const knownAssociates = Math.floor(rng() * 6);
+  const propertyRecords = rng() > 0.4;
+  const financialRecords = rng() > 0.6;
+
+  const redactedDetails = {
+    addresses: pickN(REDACTED_ADDRESSES, addresses, rng),
+    phoneNumbers: pickN(REDACTED_PHONES, phoneNumbers, rng),
+    emailAddresses: pickN(REDACTED_EMAILS, emailAddresses, rng),
+    associates: knownAssociates > 0 ? pickN(REDACTED_ASSOCIATES, knownAssociates, rng) : undefined,
+  };
+
   return {
-    addresses: Math.floor(rng() * 4) + 1,
-    phoneNumbers: Math.floor(rng() * 3) + 1,
-    emailAddresses: Math.floor(rng() * 3) + 1,
-    knownAssociates: Math.floor(rng() * 6),
-    propertyRecords: rng() > 0.4,
-    financialRecords: rng() > 0.6,
+    addresses,
+    phoneNumbers,
+    emailAddresses,
+    knownAssociates,
+    propertyRecords,
+    financialRecords,
+    redactedDetails,
   };
 }
 

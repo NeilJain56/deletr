@@ -3,7 +3,6 @@ import { Navbar } from "@/components/landing/Navbar";
 import { HeroInput } from "@/components/landing/HeroInput";
 import { TrustTiles } from "@/components/landing/TrustTiles";
 import { ComparisonTable } from "@/components/landing/ComparisonTable";
-import { PrivacyPolicy } from "@/components/landing/PrivacyPolicy";
 import { Footer } from "@/components/landing/Footer";
 
 export default function Home() {
@@ -43,7 +42,6 @@ export default function Home() {
             "Stripe Payments",
             "256-bit Encryption",
             "US-only Data Handling",
-            "30-day Money Back",
           ].map((badge) => (
             <Badge
               key={badge}
@@ -55,8 +53,6 @@ export default function Home() {
           ))}
         </section>
 
-        {/* Privacy policy */}
-        <PrivacyPolicy />
       </main>
       <Footer />
     </>

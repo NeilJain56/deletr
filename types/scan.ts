@@ -7,6 +7,12 @@ export interface ExposureCategories {
   knownAssociates: number;
   propertyRecords: boolean;
   financialRecords: boolean;
+  redactedDetails?: {
+    addresses?: string[];
+    phoneNumbers?: string[];
+    emailAddresses?: string[];
+    associates?: string[];
+  };
 }
 
 export interface ExposureReport {

@@ -103,7 +103,7 @@ function VerifyForm() {
               onChange={(e) => handleChange(i, e.target.value)}
               onKeyDown={(e) => handleKeyDown(i, e)}
               disabled={loading}
-              className="h-14 w-11 rounded-lg border border-border bg-white text-center text-xl font-medium outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20 disabled:opacity-50"
+              className="h-14 w-11 rounded-lg border border-border bg-secondary text-foreground text-center text-xl font-medium outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20 disabled:opacity-50"
             />
           ))}
         </div>

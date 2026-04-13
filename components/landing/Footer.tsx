@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer className="w-full border-t border-border bg-muted/30">
@@ -6,15 +8,15 @@ export function Footer() {
           &copy; 2026 Deletr.io &mdash; All rights reserved.
         </p>
         <div className="flex gap-6 text-sm text-muted-foreground">
-          <a href="#privacy-policy" className="hover:text-foreground">
+          <Link href="/privacy" className="hover:text-foreground">
             Privacy Policy
-          </a>
-          <a href="#" className="hover:text-foreground">
+          </Link>
+          <Link href="/terms" className="hover:text-foreground">
             Terms of Service
-          </a>
-          <a href="mailto:support@deletr.io" className="hover:text-foreground">
+          </Link>
+          <Link href="/contact" className="hover:text-foreground">
             Contact
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

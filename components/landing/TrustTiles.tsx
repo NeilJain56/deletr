@@ -23,7 +23,7 @@ const tiles = [
 
 export function TrustTiles() {
   return (
-    <section id="how-it-works" className="w-full max-w-6xl px-4 sm:px-6">
+    <section className="w-full max-w-6xl px-4 sm:px-6">
       <div className="grid gap-4 sm:grid-cols-3">
         {tiles.map((tile) => (
           <Card key={tile.title} className="border-border/50">

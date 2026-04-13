@@ -114,7 +114,7 @@ export default function CheckoutPage() {
       </button>
 
       <p className="text-center text-xs text-muted-foreground">
-        30-day money-back guarantee &middot; We never see your card details
+        Powered by Stripe &middot; We never see your card details
       </p>
     </div>
   );
