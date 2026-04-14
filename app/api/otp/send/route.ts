@@ -76,11 +76,14 @@ export async function POST(req: NextRequest) {
         to: identifier,
         subject: "Your Deletr verification code",
         html: `
-          <div style="font-family: sans-serif; max-width: 400px; margin: 0 auto; padding: 32px;">
-            <h2 style="color: #1D9E75; font-size: 20px; margin-bottom: 8px;">deletr</h2>
-            <p style="color: #555; font-size: 14px;">Your verification code is:</p>
-            <p style="font-size: 32px; font-weight: 600; letter-spacing: 4px; color: #1D9E75; margin: 16px 0;">${code}</p>
-            <p style="color: #999; font-size: 12px;">This code expires in 10 minutes. If you didn't request this, ignore this email.</p>
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 420px; margin: 0 auto; padding: 40px 32px; background-color: #0C0C0C; color: #EDEDED;">
+            <p style="font-size: 16px; font-weight: 500; margin: 0 0 24px 0; color: #EDEDED;">deletr</p>
+            <p style="font-size: 14px; color: #878787; margin: 0 0 16px 0;">Here's your verification code:</p>
+            <p style="font-size: 36px; font-weight: 600; letter-spacing: 6px; color: #34D399; margin: 0 0 24px 0;">${code}</p>
+            <p style="font-size: 13px; color: #878787; margin: 0 0 8px 0;">This code expires in 10 minutes.</p>
+            <p style="font-size: 12px; color: #555; margin: 0;">If you didn't request this code, you can safely ignore this email.</p>
+            <hr style="border: none; border-top: 1px solid #1E1E1E; margin: 32px 0 16px 0;" />
+            <p style="font-size: 11px; color: #555; margin: 0;">Deletr &middot; Data broker removal &middot; deletr.vercel.app</p>
           </div>
         `,
       });

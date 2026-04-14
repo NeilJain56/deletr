@@ -4,28 +4,18 @@ import { redis } from "@/lib/redis";
 import type { BrokerRemovalResult } from "@/types/broker";
 import type { ExposureReport } from "@/types/scan";
 
-function redactIdentifier(identifier: string): string {
-  if (identifier.includes("@")) {
-    const [local, domain] = identifier.split("@");
-    return `${local[0]}***@${domain}`;
-  }
-  // Phone: show last 4 digits
-  return `***-***-${identifier.slice(-4)}`;
-}
-
 function generateReportHTML(
   jobId: string,
   brokers: BrokerRemovalResult[],
   report: ExposureReport
 ): string {
-  const now = new Date().toISOString();
   const rows = brokers
     .map(
       (b) => `
     <tr>
-      <td style="padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 14px;">${b.name}</td>
-      <td style="padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 14px;">${b.timestamp}</td>
-      <td style="padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 14px; color: #1D9E75;">Removed</td>
+      <td style="padding: 10px 16px; border-bottom: 1px solid #1E1E1E; font-size: 14px; color: #EDEDED;">${b.name}</td>
+      <td style="padding: 10px 16px; border-bottom: 1px solid #1E1E1E; font-size: 14px; color: #878787;">${b.timestamp}</td>
+      <td style="padding: 10px 16px; border-bottom: 1px solid #1E1E1E; font-size: 14px; color: #34D399;">Removed</td>
     </tr>`
     )
     .join("");
@@ -34,33 +24,33 @@ function generateReportHTML(
 
   return `<!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"><title>Deletr Deletion Certificate</title></head>
-<body style="font-family: -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; color: #333;">
-  <div style="text-align: center; margin-bottom: 32px;">
-    <h1 style="color: #1D9E75; font-size: 24px; font-weight: 500; margin-bottom: 4px;">deletr</h1>
-    <h2 style="font-size: 20px; font-weight: 500; color: #333;">Deletion Certificate</h2>
+<head><meta charset="utf-8"><title>Deletr — Deletion Certificate</title></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 32px; background-color: #0C0C0C; color: #EDEDED;">
+  <div style="text-align: center; margin-bottom: 40px;">
+    <p style="font-size: 18px; font-weight: 500; margin: 0 0 4px 0; color: #EDEDED;">deletr</p>
+    <p style="font-size: 14px; color: #878787; margin: 0;">Deletion Certificate</p>
   </div>
 
-  <div style="background: #f9f9f9; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
-    <p style="font-size: 14px; margin: 4px 0;"><strong>Date:</strong> ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
-    <p style="font-size: 14px; margin: 4px 0;"><strong>Reference:</strong> ${jobId}</p>
-    <p style="font-size: 14px; margin: 4px 0;"><strong>Privacy Score:</strong> ${report.privacyScore} → ${scoreAfter}</p>
+  <div style="background: #161616; border: 1px solid #1E1E1E; border-radius: 12px; padding: 20px; margin-bottom: 32px;">
+    <p style="font-size: 13px; margin: 4px 0; color: #878787;">Date: <span style="color: #EDEDED;">${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span></p>
+    <p style="font-size: 13px; margin: 4px 0; color: #878787;">Reference: <span style="color: #EDEDED;">${jobId}</span></p>
+    <p style="font-size: 13px; margin: 4px 0; color: #878787;">Privacy Score: <span style="color: #34D399;">${report.privacyScore} → ${scoreAfter}</span></p>
   </div>
 
-  <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
     <thead>
-      <tr style="background: #f5f5f5;">
-        <th style="padding: 8px 12px; text-align: left; font-size: 13px; font-weight: 600;">Broker</th>
-        <th style="padding: 8px 12px; text-align: left; font-size: 13px; font-weight: 600;">Timestamp</th>
-        <th style="padding: 8px 12px; text-align: left; font-size: 13px; font-weight: 600;">Status</th>
+      <tr>
+        <th style="padding: 10px 16px; text-align: left; font-size: 12px; font-weight: 500; color: #878787; border-bottom: 1px solid #1E1E1E;">Broker</th>
+        <th style="padding: 10px 16px; text-align: left; font-size: 12px; font-weight: 500; color: #878787; border-bottom: 1px solid #1E1E1E;">Timestamp</th>
+        <th style="padding: 10px 16px; text-align: left; font-size: 12px; font-weight: 500; color: #878787; border-bottom: 1px solid #1E1E1E;">Status</th>
       </tr>
     </thead>
     <tbody>${rows}</tbody>
   </table>
 
-  <div style="border-top: 1px solid #eee; padding-top: 16px; font-size: 12px; color: #999;">
-    <p>This report documents automated opt-out requests submitted on behalf of the data subject under applicable US privacy regulations including CCPA.</p>
-    <p style="margin-top: 8px;">© 2026 Deletr.io — All rights reserved.</p>
+  <div style="border-top: 1px solid #1E1E1E; padding-top: 20px; font-size: 12px; color: #555;">
+    <p style="margin: 0 0 8px 0;">This report documents automated opt-out requests submitted on behalf of the data subject under applicable US privacy regulations including CCPA.</p>
+    <p style="margin: 0;">&copy; 2026 Deletr</p>
   </div>
 </body>
 </html>`;
@@ -103,18 +93,18 @@ export async function generateAndEmailProofReport(
   await resend.emails.send({
     from: FROM_EMAIL,
     to: customerEmail,
-    subject: "Your Deletr Deletion Report",
+    subject: "Your data has been deleted — Deletr",
     html: `
-      <div style="font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px;">
-        <h2 style="color: #1D9E75; font-size: 20px; font-weight: 500;">deletr</h2>
-        <p style="font-size: 16px; font-weight: 500; margin-top: 24px;">Your data has been deleted.</p>
-        <p style="font-size: 14px; color: #666; line-height: 1.6;">
-          We successfully submitted opt-out requests to ${brokers.length} data broker${brokers.length !== 1 ? "s" : ""} on your behalf.
-          Your full deletion certificate is available below.
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 420px; margin: 0 auto; padding: 40px 32px; background-color: #0C0C0C; color: #EDEDED;">
+        <p style="font-size: 16px; font-weight: 500; margin: 0 0 24px 0;">deletr</p>
+        <p style="font-size: 15px; font-weight: 500; margin: 0 0 12px 0;">Your data has been deleted.</p>
+        <p style="font-size: 14px; color: #878787; line-height: 1.6; margin: 0 0 24px 0;">
+          We submitted opt-out requests to ${brokers.length} data broker${brokers.length !== 1 ? "s" : ""} on your behalf. Your full deletion certificate is below.
         </p>
-        ${reportUrl ? `<a href="${reportUrl}" style="display: inline-block; margin-top: 16px; padding: 12px 24px; background: #1D9E75; color: white; text-decoration: none; border-radius: 24px; font-size: 14px; font-weight: 500;">View Deletion Report</a>` : ""}
-        <p style="font-size: 12px; color: #999; margin-top: 32px;">
-          © 2026 Deletr.io — This link expires in 1 year.
+        ${reportUrl ? `<a href="${reportUrl}" style="display: inline-block; padding: 12px 24px; background: #34D399; color: #0C0C0C; text-decoration: none; border-radius: 10px; font-size: 14px; font-weight: 500;">View deletion report</a>` : ""}
+        <hr style="border: none; border-top: 1px solid #1E1E1E; margin: 32px 0 16px 0;" />
+        <p style="font-size: 11px; color: #555; margin: 0;">
+          &copy; 2026 Deletr &middot; This link expires in 1 year.
         </p>
       </div>
     `,
