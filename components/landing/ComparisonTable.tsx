@@ -2,7 +2,6 @@ interface Row {
   feature: string;
   deletr: string;
   competitors: string;
-  deletrGood: boolean;
 }
 
 const rows: Row[] = [
@@ -10,31 +9,26 @@ const rows: Row[] = [
     feature: "Pricing",
     deletr: "$10 one-time",
     competitors: "$100\u2013$200/yr",
-    deletrGood: true,
   },
   {
     feature: "Account required",
     deletr: "No",
     competitors: "Yes",
-    deletrGood: true,
   },
   {
     feature: "Broker list shown",
     deletr: "Every broker, named",
     competitors: "Hidden or partial",
-    deletrGood: true,
   },
   {
     feature: "Data stored after",
     deletr: "None",
     competitors: "Profile kept on file",
-    deletrGood: true,
   },
   {
     feature: "Proof of deletion",
     deletr: "Full report emailed",
     competitors: "Varies",
-    deletrGood: true,
   },
 ];
 
@@ -69,10 +63,10 @@ export function ComparisonTable() {
                 <td className="px-5 py-3.5 text-[13px] text-muted-foreground">
                   {row.feature}
                 </td>
-                <td className="px-5 py-3.5 text-[13px] text-foreground">
+                <td className="px-5 py-3.5 text-[13px] text-teal">
                   {row.deletr}
                 </td>
-                <td className="px-5 py-3.5 text-[13px] text-muted-foreground">
+                <td className="px-5 py-3.5 text-[13px] text-muted-foreground/60">
                   {row.competitors}
                 </td>
               </tr>
