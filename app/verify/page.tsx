@@ -27,7 +27,6 @@ function VerifyForm() {
       inputRefs.current[index + 1]?.focus();
     }
 
-    // Auto-submit when all 6 digits entered
     if (value && index === 5 && newCode.every((d) => d)) {
       handleSubmit(newCode.join(""));
     }
@@ -71,7 +70,6 @@ function VerifyForm() {
         return;
       }
 
-      // Store scan token and redirect to scan
       sessionStorage.setItem("scanToken", data.scanToken);
       sessionStorage.setItem("identifier", identifier);
       router.push("/scan");
@@ -83,12 +81,14 @@ function VerifyForm() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4">
-      <div className="w-full max-w-sm text-center">
-        <h1 className="mb-2 text-2xl font-medium">Check your {identifier.includes("@") ? "email" : "phone"}</h1>
-        <p className="mb-8 text-sm text-muted-foreground">
+    <div className="flex min-h-screen flex-col items-center justify-center px-6">
+      <div className="w-full max-w-xs text-center">
+        <h1 className="mb-2 font-heading text-2xl tracking-tight">
+          Check your {identifier.includes("@") ? "email" : "phone"}
+        </h1>
+        <p className="mb-8 text-[13px] text-muted-foreground">
           We sent a 6-digit code to{" "}
-          <span className="font-medium text-foreground">{identifier}</span>
+          <span className="text-foreground">{identifier}</span>
         </p>
 
         <div className="mb-6 flex justify-center gap-2" onPaste={handlePaste}>
@@ -103,7 +103,7 @@ function VerifyForm() {
               onChange={(e) => handleChange(i, e.target.value)}
               onKeyDown={(e) => handleKeyDown(i, e)}
               disabled={loading}
-              className="h-14 w-11 rounded-lg border border-border bg-secondary text-foreground text-center text-xl font-medium outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20 disabled:opacity-50"
+              className="h-12 w-10 rounded-lg border border-border bg-secondary text-center text-lg font-medium text-foreground outline-none transition-colors focus:border-muted-foreground/50 disabled:opacity-50"
             />
           ))}
         </div>
@@ -113,16 +113,16 @@ function VerifyForm() {
         <button
           onClick={() => handleSubmit()}
           disabled={loading || code.some((d) => !d)}
-          className="w-full rounded-full bg-teal px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-dark disabled:opacity-50"
+          className="w-full rounded-xl bg-teal py-3 text-sm font-medium text-primary-foreground transition-all hover:bg-teal-dark disabled:opacity-50"
         >
           {loading ? "Verifying..." : "Verify"}
         </button>
 
         <button
           onClick={() => router.back()}
-          className="mt-4 text-sm text-muted-foreground hover:text-foreground"
+          className="mt-5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
         >
-          &larr; Use a different phone or email
+          &larr; Different phone or email
         </button>
       </div>
     </div>
@@ -133,7 +133,7 @@ export default function VerifyPage() {
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="text-[13px] text-muted-foreground">Loading...</p>
       </div>
     }>
       <VerifyForm />

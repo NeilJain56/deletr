@@ -4,29 +4,29 @@ import Link from "next/link";
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="text-xl font-medium text-teal">
+    <nav className="fixed top-0 z-50 w-full">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
+        <Link href="/" className="font-heading text-lg tracking-tight text-foreground">
           deletr
         </Link>
-        <div className="flex items-center gap-6">
-          <Link
-            href="/privacy"
-            className="hidden text-sm text-muted-foreground hover:text-foreground sm:block"
-          >
-            Privacy policy
-          </Link>
+        <div className="flex items-center gap-8">
           <Link
             href="/how-it-works"
-            className="hidden text-sm text-muted-foreground hover:text-foreground sm:block"
+            className="hidden text-[13px] text-muted-foreground transition-colors hover:text-foreground sm:block"
           >
             How it works
           </Link>
           <Link
-            href="/"
-            className="rounded-full bg-teal px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-teal-dark"
+            href="/privacy"
+            className="hidden text-[13px] text-muted-foreground transition-colors hover:text-foreground sm:block"
           >
-            Scan free &rarr;
+            Privacy
+          </Link>
+          <Link
+            href="/#hero"
+            className="rounded-full border border-border bg-secondary px-4 py-1.5 text-[13px] text-foreground transition-all hover:border-muted-foreground/30 hover:bg-muted"
+          >
+            Get started
           </Link>
         </div>
       </div>

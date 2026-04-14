@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/landing/Navbar";
 import { HeroInput } from "@/components/landing/HeroInput";
 import { TrustTiles } from "@/components/landing/TrustTiles";
@@ -9,50 +8,56 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-1 flex-col items-center gap-20 pb-20">
+      <main className="flex flex-1 flex-col items-center">
         {/* Hero */}
         <section
           id="hero"
-          className="flex w-full max-w-6xl flex-col items-center gap-8 px-4 pt-20 text-center sm:px-6 sm:pt-28"
+          className="relative flex w-full flex-col items-center px-6 pt-32 pb-24 text-center sm:pt-44 sm:pb-32"
         >
-          <Badge className="bg-teal-light text-teal-dark border-transparent px-4 py-1.5 text-xs font-medium">
-            US data broker removal &middot; $10 one-time
-          </Badge>
-          <h1 className="max-w-2xl text-[34px] font-medium leading-tight tracking-[-0.8px]">
-            Delete your data. Not a subscription.
-          </h1>
-          <p className="max-w-xl text-base text-muted-foreground">
-            We find every data broker selling your personal information and
-            remove it. One payment of $10 &mdash; not $120/year like everyone
-            else.
+          {/* Radial glow behind hero */}
+          <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-teal/[0.04] blur-[120px] animate-glow-pulse" />
+
+          <p className="animate-fade-in-up mb-6 text-[13px] tracking-wide text-muted-foreground uppercase">
+            Data broker removal &middot; $10 one-time
           </p>
-          <HeroInput />
+
+          <h1 className="animate-fade-in-up-delay max-w-3xl font-heading text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.05] tracking-[-0.03em] text-foreground">
+            Delete your data.
+            <br />
+            <span className="text-muted-foreground">Not a subscription.</span>
+          </h1>
+
+          <p className="animate-fade-in-up-delay-2 mt-6 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+            We find every data broker selling your personal information
+            and remove it. One payment &mdash; not $120/year.
+          </p>
+
+          <div className="animate-fade-in-up-delay-2 mt-10 w-full flex justify-center">
+            <HeroInput />
+          </div>
         </section>
+
+        {/* Divider */}
+        <div className="h-px w-full max-w-5xl bg-border" />
 
         {/* Trust tiles */}
         <TrustTiles />
 
+        {/* Divider */}
+        <div className="h-px w-full max-w-5xl bg-border" />
+
         {/* Comparison table */}
         <ComparisonTable />
 
-        {/* Compliance badges */}
-        <section className="flex w-full max-w-6xl flex-wrap items-center justify-center gap-3 px-4 sm:px-6">
-          {[
-            "CCPA Compliant",
-            "Stripe Payments",
-            "256-bit Encryption",
-            "US-only Data Handling",
-          ].map((badge) => (
-            <Badge
-              key={badge}
-              variant="outline"
-              className="border-border px-3 py-1 text-xs text-muted-foreground"
-            >
-              {badge}
-            </Badge>
-          ))}
+        {/* Bottom CTA */}
+        <section className="flex flex-col items-center gap-5 px-6 py-24 text-center sm:py-32">
+          <h2 className="font-heading text-[clamp(1.75rem,4vw,3rem)] leading-[1.1] tracking-[-0.02em]">
+            Ready to disappear?
+          </h2>
+          <p className="max-w-md text-muted-foreground">
+            Scan is free. Removal is $10. No subscription, no account, no data stored.
+          </p>
         </section>
-
       </main>
       <Footer />
     </>

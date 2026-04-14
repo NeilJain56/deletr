@@ -43,78 +43,65 @@ export default function CheckoutPage() {
   const price = plan === "individual" ? 10 : 25;
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-8 px-4">
+    <div className="mx-auto flex min-h-screen max-w-sm flex-col items-center justify-center gap-8 px-6">
+      {/* Price */}
       <div className="w-full text-center">
-        <p className="text-5xl font-medium text-teal">${price}</p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          One-time payment. Not a subscription.
+        <p className="font-heading text-6xl tracking-tight text-foreground">
+          ${price}
+        </p>
+        <p className="mt-2 text-[13px] text-muted-foreground">
+          One-time payment &middot; Not a subscription
         </p>
       </div>
 
-      <div className="w-full rounded-xl border border-teal/20 bg-teal-light/50 px-4 py-3 text-center text-sm text-teal-dark">
-        Others charge $100&ndash;$200/year. We charge once.
-      </div>
-
-      {/* Feature list */}
-      <ul className="w-full space-y-3">
+      {/* Features */}
+      <div className="w-full space-y-3">
         {[
           "Removed from all brokers found",
           "Full deletion proof report emailed",
           "Deletion starts within 60 seconds",
-          "No account. No password. No subscription.",
-          "Your data is never stored on our servers",
+          "No account or password needed",
+          "Your data is never stored",
         ].map((feature) => (
-          <li key={feature} className="flex items-start gap-3 text-sm">
-            <svg
-              className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            {feature}
-          </li>
+          <div key={feature} className="flex items-center gap-3">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-teal/10">
+              <svg className="h-3 w-3 text-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+            <span className="text-[14px] text-muted-foreground">{feature}</span>
+          </div>
         ))}
-      </ul>
+      </div>
 
-      {/* Plan toggle */}
+      {/* Family toggle */}
       <div className="w-full rounded-xl border border-border p-4">
-        <div className="flex items-center gap-3">
+        <label className="flex cursor-pointer items-center gap-3">
           <input
             type="checkbox"
-            id="family"
             checked={plan === "family"}
             onChange={(e) => setPlan(e.target.checked ? "family" : "individual")}
-            className="h-4 w-4 rounded accent-teal"
+            className="h-4 w-4 rounded border-border accent-teal"
           />
-          <label htmlFor="family" className="text-sm">
-            <span className="font-medium">Adding family?</span>{" "}
-            <span className="text-muted-foreground">
-              Up to 4 more people &mdash; $25 total
-            </span>
-          </label>
-        </div>
+          <span className="text-[14px]">
+            <span className="text-foreground">Family plan</span>
+            <span className="text-muted-foreground"> &middot; Up to 5 people &middot; $25</span>
+          </span>
+        </label>
       </div>
 
       {error && <p className="text-center text-sm text-danger">{error}</p>}
 
-      {/* CTA */}
       <button
         onClick={handleCheckout}
         disabled={loading}
-        className="w-full rounded-full bg-teal py-4 text-base font-medium text-white transition-colors hover:bg-teal-dark disabled:opacity-50"
+        className="w-full rounded-xl bg-teal py-3.5 text-sm font-medium text-primary-foreground transition-all hover:bg-teal-dark disabled:opacity-50"
       >
-        {loading ? "Redirecting to Stripe..." : "Pay with card \u2014 powered by Stripe"}
+        {loading ? "Redirecting..." : "Pay with Stripe"}
       </button>
 
-      <p className="text-center text-xs text-muted-foreground">
-        Powered by Stripe &middot; We never see your card details
+      <p className="text-center text-[12px] text-muted-foreground/60">
+        Powered by Stripe &middot; Card details never touch our servers
       </p>
     </div>
   );

@@ -45,18 +45,18 @@ export default function AdminPage() {
 
   if (!authed) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
-        <h1 className="text-xl font-medium">Admin Dashboard</h1>
+      <div className="flex min-h-screen flex-col items-center justify-center gap-5 px-6">
+        <h1 className="font-heading text-2xl tracking-tight">Admin</h1>
         <input
           type="password"
           value={token}
           onChange={(e) => setToken(e.target.value)}
-          placeholder="Admin secret key"
-          className="w-64 rounded-lg border border-border px-4 py-2 text-sm"
+          placeholder="Secret key"
+          className="w-64 rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-muted-foreground/40"
         />
         <button
           onClick={() => setAuthed(true)}
-          className="rounded-full bg-teal px-6 py-2 text-sm font-medium text-white"
+          className="rounded-xl bg-teal px-6 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:bg-teal-dark"
         >
           Login
         </button>
@@ -67,7 +67,7 @@ export default function AdminPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-teal border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-teal border-t-transparent" />
       </div>
     );
   }
@@ -75,57 +75,56 @@ export default function AdminPage() {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-danger">{error}</p>
+        <p className="text-sm text-danger">{error}</p>
       </div>
     );
   }
 
-  function statusEmoji(rate: number, lastSuccess: string | null) {
-    if (!lastSuccess) return { emoji: "\uD83D\uDD34", label: "No data" };
+  function statusDot(rate: number, lastSuccess: string | null) {
+    if (!lastSuccess) return { color: "bg-muted-foreground/30", label: "No data" };
     const hoursSinceSuccess =
       (Date.now() - new Date(lastSuccess).getTime()) / (1000 * 60 * 60);
-    if (hoursSinceSuccess > 48)
-      return { emoji: "\uD83D\uDD34", label: "Stale (>48h)" };
-    if (rate >= 95) return { emoji: "\uD83D\uDFE2", label: "Healthy" };
-    if (rate >= 80) return { emoji: "\uD83D\uDFE1", label: "Degraded" };
-    return { emoji: "\uD83D\uDD34", label: "Failing" };
+    if (hoursSinceSuccess > 48) return { color: "bg-danger", label: "Stale" };
+    if (rate >= 95) return { color: "bg-teal", label: "Healthy" };
+    if (rate >= 80) return { color: "bg-warning", label: "Degraded" };
+    return { color: "bg-danger", label: "Failing" };
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12">
-      <h1 className="mb-8 text-2xl font-medium">Broker Health Dashboard</h1>
+    <div className="mx-auto max-w-4xl px-6 py-16">
+      <h1 className="mb-8 font-heading text-2xl tracking-tight">Broker Health</h1>
       <div className="overflow-x-auto rounded-xl border border-border">
-        <table className="w-full text-sm">
+        <table className="w-full text-[13px]">
           <thead>
-            <tr className="border-b border-border bg-muted/50">
-              <th className="px-4 py-3 text-left font-medium">Status</th>
-              <th className="px-4 py-3 text-left font-medium">Broker</th>
-              <th className="px-4 py-3 text-left font-medium">7d Success Rate</th>
-              <th className="px-4 py-3 text-left font-medium">Total Runs</th>
-              <th className="px-4 py-3 text-left font-medium">Last Success</th>
-              <th className="px-4 py-3 text-left font-medium">Last Failure</th>
+            <tr className="border-b border-border">
+              <th className="px-5 py-3 text-left font-normal text-muted-foreground">Status</th>
+              <th className="px-5 py-3 text-left font-normal text-muted-foreground">Broker</th>
+              <th className="px-5 py-3 text-left font-normal text-muted-foreground">7d Rate</th>
+              <th className="px-5 py-3 text-left font-normal text-muted-foreground">Runs</th>
+              <th className="px-5 py-3 text-left font-normal text-muted-foreground">Last OK</th>
+              <th className="px-5 py-3 text-left font-normal text-muted-foreground">Last Fail</th>
             </tr>
           </thead>
           <tbody>
             {data.map((broker) => {
-              const s = statusEmoji(broker.successRate, broker.lastSuccess);
+              const s = statusDot(broker.successRate, broker.lastSuccess);
               return (
-                <tr key={broker.id} className="border-b border-border last:border-0">
-                  <td className="px-4 py-3" title={s.label}>
-                    {s.emoji}
+                <tr key={broker.id} className="border-b border-border last:border-0 transition-colors hover:bg-secondary/50">
+                  <td className="px-5 py-3" title={s.label}>
+                    <span className={`inline-block h-2 w-2 rounded-full ${s.color}`} />
                   </td>
-                  <td className="px-4 py-3 font-medium">{broker.name}</td>
-                  <td className="px-4 py-3">{broker.successRate}%</td>
-                  <td className="px-4 py-3">{broker.total}</td>
-                  <td className="px-4 py-3 text-muted-foreground">
+                  <td className="px-5 py-3 text-foreground">{broker.name}</td>
+                  <td className="px-5 py-3 text-foreground">{broker.successRate}%</td>
+                  <td className="px-5 py-3 text-muted-foreground">{broker.total}</td>
+                  <td className="px-5 py-3 text-muted-foreground">
                     {broker.lastSuccess
                       ? new Date(broker.lastSuccess).toLocaleString()
-                      : "—"}
+                      : "\u2014"}
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">
+                  <td className="px-5 py-3 text-muted-foreground">
                     {broker.lastFailure
                       ? new Date(broker.lastFailure).toLocaleString()
-                      : "—"}
+                      : "\u2014"}
                   </td>
                 </tr>
               );
@@ -133,8 +132,8 @@ export default function AdminPage() {
           </tbody>
         </table>
       </div>
-      <p className="mt-4 text-xs text-muted-foreground">
-        Auto-refreshes every 60 seconds
+      <p className="mt-4 text-[12px] text-muted-foreground/50">
+        Auto-refreshes every 60s
       </p>
     </div>
   );

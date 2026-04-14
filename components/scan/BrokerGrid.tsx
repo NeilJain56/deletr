@@ -6,33 +6,24 @@ interface Props {
 
 export function BrokerGrid({ brokers }: Props) {
   const brokersWithData = brokers.filter((b) => b.hasData);
-  const shown = brokersWithData.slice(0, 6);
-  const remaining = brokersWithData.length - shown.length;
 
   return (
     <div className="rounded-xl border border-border">
-      <div className="border-b border-border px-4 py-3">
-        <h3 className="text-sm font-medium">
-          Brokers with your data ({brokersWithData.length})
+      <div className="border-b border-border px-5 py-3">
+        <h3 className="text-[13px] text-muted-foreground">
+          Brokers with your data &middot; {brokersWithData.length}
         </h3>
       </div>
-      <div className="grid grid-cols-2 gap-3 p-4">
-        {shown.map((broker) => (
+      <div className="divide-y divide-border">
+        {brokersWithData.map((broker) => (
           <div
             key={broker.id}
-            className="flex items-center gap-2.5 rounded-lg border border-border px-3 py-2.5"
+            className="flex items-center gap-3 px-5 py-3"
           >
-            <span className="h-2.5 w-2.5 rounded-full bg-danger" />
-            <span className="text-sm font-medium">{broker.name}</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-danger" />
+            <span className="text-[14px] text-foreground">{broker.name}</span>
           </div>
         ))}
-        {remaining > 0 && (
-          <div className="flex items-center justify-center rounded-lg border border-dashed border-border px-3 py-2.5">
-            <span className="text-sm text-muted-foreground">
-              + {remaining} more broker{remaining !== 1 ? "s" : ""}
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );

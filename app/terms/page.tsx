@@ -20,7 +20,7 @@ const sections = [
   {
     title: "4. Disclaimer of Warranties",
     content:
-      'The Service is provided on an "as-is" and "as-available" basis. Deletr.io makes no warranties, express or implied, regarding the completeness or effectiveness of data broker removals. We do not guarantee that all data brokers will comply with opt-out requests, as compliance depends on each broker\'s policies and applicable law. We do not warrant that the Service will be uninterrupted, error-free, or completely secure.',
+      'The Service is provided on an "as-is" and "as-available" basis. Deletr.io makes no warranties, express or implied, regarding the completeness or effectiveness of data broker removals. We do not guarantee that all data brokers will comply with opt-out requests, as compliance depends on each broker\'s policies and applicable law.',
   },
   {
     title: "5. Limitation of Liability",
@@ -30,7 +30,7 @@ const sections = [
   {
     title: "6. User Responsibilities",
     content:
-      "You agree to provide accurate and truthful personal information when using the Service. Providing false or misleading information may result in termination of your access. The Service is available to United States residents only. You must be at least 18 years of age to use the Service. You are responsible for maintaining the confidentiality of any verification codes sent to you.",
+      "You agree to provide accurate and truthful personal information when using the Service. The Service is available to United States residents only. You must be at least 18 years of age to use the Service. You are responsible for maintaining the confidentiality of any verification codes sent to you.",
   },
   {
     title: "7. Intellectual Property",
@@ -40,46 +40,46 @@ const sections = [
   {
     title: "8. Termination",
     content:
-      "We reserve the right to suspend or terminate your access to the Service at our sole discretion, without notice, for conduct that we believe violates these Terms of Service or is harmful to other users, us, or third parties. Upon termination, your right to use the Service ceases immediately.",
+      "We reserve the right to suspend or terminate your access to the Service at our sole discretion, without notice, for conduct that we believe violates these Terms of Service or is harmful to other users, us, or third parties.",
   },
   {
     title: "9. Governing Law",
     content:
-      "These Terms of Service shall be governed by and construed in accordance with the laws of the State of California, without regard to its conflict of law provisions. Any disputes arising under these terms shall be resolved in the state or federal courts located in California.",
+      "These Terms of Service shall be governed by and construed in accordance with the laws of the State of California, without regard to its conflict of law provisions.",
   },
   {
     title: "10. Contact",
     content:
-      "If you have any questions about these Terms of Service, please contact us at support@deletr.io. We will make reasonable efforts to respond to your inquiry within 48 hours.",
+      "If you have any questions about these Terms of Service, please contact us at support@deletr.io.",
   },
 ];
 
 export default function TermsPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <main className="flex-1 px-4 py-12 sm:px-6">
-        <div className="mx-auto max-w-3xl">
+    <div className="flex min-h-screen flex-col">
+      <main className="flex-1 px-6 py-16">
+        <div className="mx-auto max-w-2xl">
           <Link
             href="/"
-            className="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
+            className="mb-10 inline-flex text-[13px] text-muted-foreground transition-colors hover:text-foreground"
           >
-            &larr; Back to home
+            &larr; Back
           </Link>
 
-          <h1 className="mb-2 text-3xl font-bold tracking-tight">
+          <h1 className="mb-2 font-heading text-[clamp(1.75rem,4vw,2.5rem)] tracking-[-0.02em]">
             Terms of Service
           </h1>
-          <p className="mb-10 text-sm text-muted-foreground">
-            Last updated: April 2026 &middot; Governing law: State of California
+          <p className="mb-12 text-[13px] text-muted-foreground">
+            Last updated April 2026 &middot; Governing law: California
           </p>
 
           <div className="space-y-8">
             {sections.map((section) => (
               <section key={section.title}>
-                <h2 className="mb-2 text-lg font-semibold text-foreground">
+                <h2 className="mb-2 text-[15px] font-medium text-foreground">
                   {section.title}
                 </h2>
-                <p className="leading-relaxed text-muted-foreground">
+                <p className="text-[14px] leading-relaxed text-muted-foreground">
                   {section.content}
                 </p>
               </section>

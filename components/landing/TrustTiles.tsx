@@ -1,40 +1,34 @@
-import { Card, CardContent } from "@/components/ui/card";
-
 const tiles = [
   {
-    icon: "\uD83D\uDEAB",
     title: "No subscription",
-    description:
-      "Pay $10 once. Competitors charge $100\u2013$200 per year.",
+    description: "Pay $10 once. Competitors charge $100\u2013$200 per year for the same thing.",
   },
   {
-    icon: "\uD83D\uDD12",
     title: "Zero data stored",
-    description:
-      "We process your scan and delete all information immediately after.",
+    description: "We process your scan in memory and delete everything after. Nothing persists.",
   },
   {
-    icon: "\uD83D\uDC41",
     title: "Full transparency",
-    description:
-      "We show you every broker we remove you from. Others hide this.",
+    description: "We name every broker and show every removal. Others hide behind vague dashboards.",
   },
 ];
 
 export function TrustTiles() {
   return (
-    <section className="w-full max-w-6xl px-4 sm:px-6">
-      <div className="grid gap-4 sm:grid-cols-3">
+    <section className="w-full max-w-5xl px-6 py-20 sm:py-28">
+      <p className="mb-10 text-center text-[13px] tracking-wide text-muted-foreground uppercase">
+        Why deletr
+      </p>
+      <div className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3">
         {tiles.map((tile) => (
-          <Card key={tile.title} className="border-border/50">
-            <CardContent className="flex flex-col gap-2 p-6">
-              <span className="text-3xl">{tile.icon}</span>
-              <h3 className="text-base font-medium">{tile.title}</h3>
-              <p className="text-sm text-muted-foreground">
-                {tile.description}
-              </p>
-            </CardContent>
-          </Card>
+          <div key={tile.title} className="bg-card p-8">
+            <h3 className="mb-2 text-[15px] font-medium text-foreground">
+              {tile.title}
+            </h3>
+            <p className="text-[14px] leading-relaxed text-muted-foreground">
+              {tile.description}
+            </p>
+          </div>
         ))}
       </div>
     </section>

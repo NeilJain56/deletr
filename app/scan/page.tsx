@@ -52,23 +52,25 @@ export default function ScanPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-teal border-t-transparent" />
-        <h2 className="text-lg font-medium">Scanning data brokers...</h2>
-        <p className="text-sm text-muted-foreground">
-          Checking 10+ databases for your personal information
-        </p>
+      <div className="flex min-h-screen flex-col items-center justify-center gap-5 px-6">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-teal border-t-transparent" />
+        <div className="text-center">
+          <h2 className="font-heading text-xl">Scanning brokers</h2>
+          <p className="mt-1 text-[13px] text-muted-foreground">
+            Checking 10+ databases for your information
+          </p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
-        <p className="text-danger">{error}</p>
+      <div className="flex min-h-screen flex-col items-center justify-center gap-5 px-6">
+        <p className="text-sm text-danger">{error}</p>
         <button
           onClick={() => router.push("/")}
-          className="rounded-full bg-teal px-6 py-3 text-sm font-medium text-white"
+          className="rounded-lg bg-secondary px-5 py-2.5 text-sm text-foreground transition-colors hover:bg-muted"
         >
           Try again
         </button>
@@ -81,25 +83,28 @@ export default function ScanPage() {
   const brokersWithData = report.brokersFound.filter((b) => b.hasData).length;
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-12">
+    <div className="mx-auto flex max-w-xl flex-col gap-6 px-6 py-16">
       <div className="text-center">
-        <h1 className="text-2xl font-medium">Your Exposure Report</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          We found your data on {brokersWithData} broker{brokersWithData !== 1 ? "s" : ""}
+        <p className="mb-2 text-[13px] tracking-wide text-muted-foreground uppercase">
+          Exposure report
         </p>
+        <h1 className="font-heading text-[clamp(1.5rem,4vw,2.25rem)] leading-[1.1] tracking-[-0.02em]">
+          We found your data on {brokersWithData} broker{brokersWithData !== 1 ? "s" : ""}
+        </h1>
       </div>
 
-      <PrivacyScoreRing score={report.privacyScore} />
-      <ExposureCategories categories={report.categories} />
-      <BrokerGrid brokers={report.brokersFound} />
-      <SpamEstimate estimate={report.spamEstimate} />
+      <div className="mt-2 space-y-4">
+        <PrivacyScoreRing score={report.privacyScore} />
+        <ExposureCategories categories={report.categories} />
+        <BrokerGrid brokers={report.brokersFound} />
+        <SpamEstimate estimate={report.spamEstimate} />
+      </div>
 
-      {/* CTA */}
       <button
         onClick={() => router.push("/checkout")}
-        className="w-full rounded-full bg-teal py-4 text-base font-medium text-white transition-colors hover:bg-teal-dark"
+        className="mt-4 w-full rounded-xl bg-teal py-3.5 text-sm font-medium text-primary-foreground transition-all hover:bg-teal-dark"
       >
-        Remove all of this &mdash; $10
+        Remove all &mdash; $10
       </button>
     </div>
   );

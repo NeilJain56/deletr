@@ -40,29 +40,29 @@ export function HeroInput() {
   }
 
   return (
-    <div className="w-full max-w-lg">
-      <form onSubmit={handleSubmit} className="flex gap-2">
+    <div className="w-full max-w-md">
+      <form onSubmit={handleSubmit} className="relative">
         <input
           type="text"
           value={identifier}
           onChange={(e) => setIdentifier(e.target.value)}
-          placeholder="Phone number or email address"
-          className="flex-1 rounded-full border border-border bg-secondary px-5 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-teal focus:ring-2 focus:ring-teal/20"
+          placeholder="Phone number or email"
+          className="w-full rounded-xl border border-border bg-secondary py-4 pl-5 pr-32 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-muted-foreground/40"
           disabled={loading}
         />
         <button
           type="submit"
           disabled={loading}
-          className="whitespace-nowrap rounded-full bg-teal px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-dark disabled:opacity-50"
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-lg bg-teal px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:bg-teal-dark disabled:opacity-50"
         >
-          {loading ? "Sending..." : "Scan free \u2192"}
+          {loading ? "..." : "Scan free"}
         </button>
       </form>
       {error && (
-        <p className="mt-2 text-sm text-danger">{error}</p>
+        <p className="mt-3 text-center text-sm text-danger">{error}</p>
       )}
-      <p className="mt-4 text-center text-xs text-muted-foreground">
-        No account required &middot; We don&apos;t store your data &middot; Free to scan
+      <p className="mt-5 text-center text-[13px] text-muted-foreground">
+        No account needed &middot; Free scan &middot; Data never stored
       </p>
     </div>
   );

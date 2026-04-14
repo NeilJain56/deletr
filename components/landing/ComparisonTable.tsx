@@ -1,86 +1,85 @@
-import { Badge } from "@/components/ui/badge";
-
-type CellColor = "green" | "red" | "amber";
-
 interface Row {
   feature: string;
-  deletr: { text: string; color: CellColor };
-  competitors: { text: string; color: CellColor };
+  deletr: string;
+  competitors: string;
+  deletrGood: boolean;
 }
 
 const rows: Row[] = [
   {
     feature: "Pricing",
-    deletr: { text: "$10 one-time", color: "green" },
-    competitors: { text: "$100\u2013$200/yr", color: "red" },
+    deletr: "$10 one-time",
+    competitors: "$100\u2013$200/yr",
+    deletrGood: true,
   },
   {
     feature: "Account required",
-    deletr: { text: "No", color: "green" },
-    competitors: { text: "Yes", color: "red" },
+    deletr: "No",
+    competitors: "Yes",
+    deletrGood: true,
   },
   {
     feature: "Broker list shown",
-    deletr: { text: "Every broker, named", color: "green" },
-    competitors: { text: "Hidden or partial", color: "red" },
+    deletr: "Every broker, named",
+    competitors: "Hidden or partial",
+    deletrGood: true,
   },
   {
-    feature: "Data stored after deletion",
-    deletr: { text: "None", color: "green" },
-    competitors: { text: "Profile kept on file", color: "red" },
+    feature: "Data stored after",
+    deletr: "None",
+    competitors: "Profile kept on file",
+    deletrGood: true,
   },
   {
-    feature: "Family coverage",
-    deletr: { text: "$25 for 5 people", color: "green" },
-    competitors: { text: "Extra per person/yr", color: "amber" },
+    feature: "Family plan",
+    deletr: "$25 for 5 people",
+    competitors: "Extra per person/yr",
+    deletrGood: true,
   },
   {
     feature: "Proof of deletion",
-    deletr: { text: "Full report emailed", color: "green" },
-    competitors: { text: "Varies by provider", color: "amber" },
+    deletr: "Full report emailed",
+    competitors: "Varies",
+    deletrGood: true,
   },
 ];
 
-const colorMap: Record<CellColor, string> = {
-  green: "bg-teal-light text-teal-dark border-transparent",
-  red: "bg-danger-light text-danger border-transparent",
-  amber: "bg-warning-light text-warning border-transparent",
-};
-
 export function ComparisonTable() {
   return (
-    <section className="w-full max-w-6xl px-4 sm:px-6">
-      <h2 className="mb-6 text-center text-2xl font-medium tracking-tight">
+    <section className="w-full max-w-5xl px-6 py-20 sm:py-28">
+      <p className="mb-4 text-center text-[13px] tracking-wide text-muted-foreground uppercase">
+        Comparison
+      </p>
+      <h2 className="mb-10 text-center font-heading text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.15] tracking-[-0.02em]">
         How we compare
       </h2>
-      <div className="overflow-x-auto rounded-xl border border-border">
+      <div className="overflow-hidden rounded-xl border border-border">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border bg-muted/50">
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                Feature
-              </th>
-              <th className="px-4 py-3 text-left font-medium text-teal">
+            <tr className="border-b border-border">
+              <th className="px-5 py-3.5 text-left text-[13px] font-normal text-muted-foreground" />
+              <th className="px-5 py-3.5 text-left text-[13px] font-medium text-teal">
                 deletr
               </th>
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                Competitors
+              <th className="px-5 py-3.5 text-left text-[13px] font-normal text-muted-foreground">
+                Others
               </th>
             </tr>
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.feature} className="border-b border-border last:border-0">
-                <td className="px-4 py-3 font-medium">{row.feature}</td>
-                <td className="px-4 py-3">
-                  <Badge className={colorMap[row.deletr.color]}>
-                    {row.deletr.text}
-                  </Badge>
+              <tr
+                key={row.feature}
+                className="border-b border-border last:border-0 transition-colors hover:bg-secondary/50"
+              >
+                <td className="px-5 py-3.5 text-[13px] text-muted-foreground">
+                  {row.feature}
                 </td>
-                <td className="px-4 py-3">
-                  <Badge className={colorMap[row.competitors.color]}>
-                    {row.competitors.text}
-                  </Badge>
+                <td className="px-5 py-3.5 text-[13px] text-foreground">
+                  {row.deletr}
+                </td>
+                <td className="px-5 py-3.5 text-[13px] text-muted-foreground">
+                  {row.competitors}
                 </td>
               </tr>
             ))}

@@ -41,39 +41,35 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <main className="flex-1 px-4 py-12 sm:px-6">
-        <div className="mx-auto max-w-3xl">
+    <div className="flex min-h-screen flex-col">
+      <main className="flex-1 px-6 py-16">
+        <div className="mx-auto max-w-2xl">
           <Link
             href="/"
-            className="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
+            className="mb-10 inline-flex text-[13px] text-muted-foreground transition-colors hover:text-foreground"
           >
-            &larr; Back to home
+            &larr; Back
           </Link>
 
-          <h1 className="mb-2 text-3xl font-bold tracking-tight">
+          <h1 className="mb-2 font-heading text-[clamp(1.75rem,4vw,2.5rem)] tracking-[-0.02em]">
             Privacy Policy
           </h1>
-          <p className="mb-10 text-sm text-muted-foreground">
-            Last updated: April 2026 &middot; Governing law: State of California
+          <p className="mb-12 text-[13px] text-muted-foreground">
+            Last updated April 2026 &middot; Governing law: California
           </p>
 
           <div className="space-y-8">
             {sections.map((section) => (
               <section key={section.title}>
-                <h2 className="mb-2 text-lg font-semibold text-foreground">
+                <h2 className="mb-2 text-[15px] font-medium text-foreground">
                   {section.title}
                 </h2>
-                <p className="leading-relaxed text-muted-foreground">
+                <p className="text-[14px] leading-relaxed text-muted-foreground">
                   {section.content}
                 </p>
               </section>
             ))}
           </div>
-
-          <p className="mt-12 text-center text-xs text-muted-foreground">
-            Last updated: April 2026 &middot; Governing law: State of California &middot; Effective immediately upon use
-          </p>
         </div>
       </main>
       <Footer />

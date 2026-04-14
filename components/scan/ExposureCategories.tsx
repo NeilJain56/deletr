@@ -22,18 +22,18 @@ function CategoryRow({
   }[color];
 
   return (
-    <div className="py-2.5">
+    <div className="py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className={`h-2.5 w-2.5 rounded-full ${dotColor}`} />
-          <span className="text-sm">{label}</span>
+          <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />
+          <span className="text-[14px] text-foreground">{label}</span>
         </div>
-        <span className="text-sm font-medium text-muted-foreground">{value}</span>
+        <span className="text-[13px] text-muted-foreground">{value}</span>
       </div>
       {details && details.length > 0 && (
-        <div className="ml-[22px] mt-1 flex flex-col gap-0.5">
+        <div className="ml-[18px] mt-1.5 flex flex-col gap-0.5">
           {details.map((detail, i) => (
-            <span key={i} className="text-xs text-muted-foreground/70">
+            <span key={i} className="text-[12px] text-muted-foreground/50">
               {detail}
             </span>
           ))}
@@ -87,10 +87,10 @@ export function ExposureCategories({ categories }: Props) {
 
   return (
     <div className="rounded-xl border border-border">
-      <div className="border-b border-border px-4 py-3">
-        <h3 className="text-sm font-medium">Exposure Categories</h3>
+      <div className="border-b border-border px-5 py-3">
+        <h3 className="text-[13px] text-muted-foreground">Exposure categories</h3>
       </div>
-      <div className="divide-y divide-border px-4">
+      <div className="divide-y divide-border px-5">
         {rows.map((row) => (
           <CategoryRow key={row.label} {...row} />
         ))}
