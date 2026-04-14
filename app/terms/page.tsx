@@ -15,7 +15,7 @@ const sections = [
   {
     title: "3. Payment Terms",
     content:
-      "The Service is offered at a one-time fee of $10 for individuals or $25 for families (up to 4 members). All payments are non-refundable once processing has begun. Payments are securely processed by Stripe. Deletr.io does not store your payment card information. Prices are subject to change, but any changes will not affect transactions already completed.",
+      "The Service is offered at a one-time fee of $10 per person. All payments are non-refundable once processing has begun. Payments are securely processed by Stripe. Deletr.io does not store your payment card information. Prices are subject to change, but any changes will not affect transactions already completed.",
   },
   {
     title: "4. Disclaimer of Warranties",

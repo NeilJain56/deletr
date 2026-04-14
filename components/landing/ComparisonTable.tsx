@@ -31,12 +31,6 @@ const rows: Row[] = [
     deletrGood: true,
   },
   {
-    feature: "Family plan",
-    deletr: "$25 for 5 people",
-    competitors: "Extra per person/yr",
-    deletrGood: true,
-  },
-  {
     feature: "Proof of deletion",
     deletr: "Full report emailed",
     competitors: "Varies",

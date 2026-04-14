@@ -4,7 +4,6 @@ import { stripe } from "@/lib/stripe";
 
 const schema = z.object({
   reportId: z.string().min(1),
-  plan: z.enum(["individual", "family"]),
 });
 
 export async function POST(req: NextRequest) {
@@ -18,11 +17,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { reportId, plan } = parsed.data;
-    const priceId =
-      plan === "individual"
-        ? process.env.STRIPE_PRICE_INDIVIDUAL!
-        : process.env.STRIPE_PRICE_FAMILY!;
+    const { reportId } = parsed.data;
+    const priceId = process.env.STRIPE_PRICE_INDIVIDUAL!;
 
     const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -30,7 +26,7 @@ export async function POST(req: NextRequest) {
       mode: "payment",
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
-      metadata: { reportId, plan },
+      metadata: { reportId, plan: "individual" },
       success_url: `${APP_URL}/progress/{CHECKOUT_SESSION_ID}`,
       cancel_url: `${APP_URL}/checkout`,
     });
